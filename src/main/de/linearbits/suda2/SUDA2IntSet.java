@@ -17,163 +17,137 @@
 package de.linearbits.suda2;
 
 /**
- * A very basic integer set using murmur hashing and linear probing.
+ * Abstract int set
  * 
  * @author Fabian Prasser
  */
-public class SUDA2IntSet {
+public abstract class SUDA2IntSet extends Timeable {
     
-    /** Default */
-    private static final float DEFAULT_LOAD_FACTOR      = 0.75f;
-
-    /** Default */
-    private static final int   DEFAULT_INITIAL_CAPACITY = 8;
-
     /**
-     * Returns a seed for this specific collection
-     * @return
+     * The different types of sets available
+     * 
+     * @author Fabian Prasser
      */
-    private static final int getSeed() {
-        long seed = System.nanoTime();
-        seed = (seed ^ (seed >>> 32)) * 0x4cd6944c5cc20b6dL;
-        seed = (seed ^ (seed >>> 29)) * 0xfc12c5b19d3259e9L;
-        return (int) (seed ^ (seed >>> 32));
+    public static enum Type {
+        HASH,
+        BITS,
+        JUMP,
+        EMPTY
     }
-
+    
+    /** Empty set */
+    public static SUDA2IntSet EMPTY_SET = new SUDA2IntSetEmpty();
+    
     /**
-     * Returns the threshold
+     * Tries to guess the best type of set to use for output data for a specific intersection operation
      * @param size
+     * @param min1
+     * @param max1
+     * @param min2
+     * @param max2
      * @return
      */
-    private static final int getThreshold(int size) {
-        return (int) Math.ceil(size * DEFAULT_LOAD_FACTOR);
-    }
+    public static SUDA2IntSet getResultSet(int size, int min1, int max1, int min2, int max2) {
 
-    /** Seed */
-    private final int seed = getSeed();
+        // No output, empty set
+        if (size == 0 || max1 < min2 || max2 < min1) {
+            return EMPTY_SET;
+        }
+            
+        // Intersect
+        int overlapMin = Math.max(min1,  min2);
+        int overlapMax = Math.min(max1,  max2);
+        
+        
+        // Very small set
+        if (size <= 8) {
+            return new SUDA2IntSetJump();
+        }
+        
+        // Estimate size assuming uniform distribution
+        int estimatedSize = (int)((double)size * (double)(overlapMax - overlapMin) / (double)(max1 - min1));
 
-    /** Number of elements that can be put into table until a rehash occurs */
-    private int       threshold;
-
-    /** The entry array. */
-    public int[]      buckets;
-
-    /** Current number of elements. */
-    public int        size;
-    
-    /** The last element added to this set */
-    public int        last;
-   
-    /**
-     * Creates a new instance
-     */
-    public SUDA2IntSet() {
-        this.buckets = new int[DEFAULT_INITIAL_CAPACITY];
-        this.threshold = getThreshold(this.buckets.length);
+        // Calculate capacity needed for hash set of estimates size
+        int capacity = estimatedSize - 1;
+        capacity |= capacity >> 1;
+        capacity |= capacity >> 2;
+        capacity |= capacity >> 4;
+        capacity |= capacity >> 8;
+        capacity |= capacity >> 16;
+        capacity++;
+        
+        // If it saves space, use a bit set
+        if ((capacity << 5) >= overlapMax - overlapMin) {
+            return new SUDA2IntSetBits(overlapMin, overlapMax);
+        }
+        
+        // Fall back to hash set
+        return new SUDA2IntSetHash(capacity);
     }
 
     /**
      * Adds a new value to the set
      * @param value
      */
-    public void add(int value) {
-        size += this.add(this.buckets, value, hashcode(value)) ? 1 : 0;
-        if (size == threshold) {
-            this.rehash();
-        }
-    }
+    public abstract void add(int value);
 
     /**
      * Returns whether the given value is contained
      * @param value
      * @return
      */
-    public boolean contains(int value) {
-        
-        final int mask = buckets.length - 1;
-        final int slot = hashcode(value) & mask;
+    public abstract boolean contains(int value);
 
-        for (int i = slot; i < buckets.length; i ++) {
-            if (buckets[i] == value) {
-                return true;
-            } else if (buckets[i] == 0) {
-                return false;
-            }
-        }
-
-        for (int i = 0; i < slot; i ++) {
-            if (buckets[i] == value) {
-                return true;
-            } else if (buckets[i] == 0) {
-                return false;
-            }
-        }
-        
-        throw new IllegalStateException("Illegal state. This should not happen.");
-    }
-    
     /**
-     * Adds a value to the set
-     * @param buckets
-     * @param value
-     * @param hash
+     * Returns whether the special row is contained in this set
+     * @param items 
+     * @param referenceItem
+     * @param data
      * @return
      */
-    private boolean add(int[] buckets, int value, int hash) {
-        
-        this.last = value;
-        final int mask = buckets.length - 1;
-        final int slot = hash & mask;
-        
-        for (int i = slot; i < buckets.length; i ++) {
-            if (buckets[i] == value) {
-                return false;
-            } else if (buckets[i] == 0) {
-                buckets[i] = value;
-                return true;
-            }
-        }
-
-        for (int i = 0; i < slot; i ++) {
-            if (buckets[i] == value) {
-                return false;
-            } else if (buckets[i] == 0) {
-                buckets[i] = value;
-                return true;
-            }
-        }
-        
-        throw new IllegalStateException("Illegal state. This should not happen.");
-    }
+    public abstract boolean containsSpecialRow(SUDA2Item[] items, SUDA2Item referenceItem, int[][] data);
     
     /**
-     * Murmur hash
-     * @param value
+     * Returns whether the set is a bit set
      * @return
      */
-    private int hashcode(int value) {
-        value = value ^ seed;
-        value = (value ^ (value >>> 16)) * 0x85ebca6b;
-        value = (value ^ (value >>> 13)) * 0xc2b2ae35;
-        return (value ^ (value >>> 16));
-    }
+    public abstract Type getType();
+    
+    /**
+     * Returns a new set that contains only elements contained in both sets
+     * 
+     * @param other
+     * @return
+     */
+    public abstract SUDA2IntSet intersectWith(SUDA2IntSet other);
+    
+    /**
+     * Searches for exactly one support row
+     * @param other
+     * @return
+     */
+    public abstract boolean isSupportRowPresent(SUDA2IntSet other);
 
     /**
-     * Rehashes the set
+     * Return min
+     * @return
      */
-    private void rehash() {
-        
-        int[] _buckets = new int[buckets.length << 1];
-        int _threshold = getThreshold(_buckets.length);
+    public abstract int max();
 
-        // In reverse order
-        for (int i = this.buckets.length - 1; i >= 0; i--) {
-            if (buckets[i] != 0) {
-                this.add(_buckets, buckets[i], hashcode(buckets[i]));
-            }
-        }
-        
-        this.buckets = _buckets;
-        this.threshold = _threshold;
-    }
+    /**
+     * Return max
+     * @return
+     */
+    public abstract int min();
+    
+    /**
+     * Returns the size of the set
+     * @return
+     */
+    public abstract int size();
+    
+    /**
+     * To string
+     */
+    public abstract String toString();
 }
