@@ -19,7 +19,11 @@ package de.linearbits.suda2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class implements the SUDA2 algorithm
@@ -72,6 +76,7 @@ public class SUDA2 {
         this.check(data);
         this.data = data;
         this.columns = data.length == 0 ? 0 : data[0].length;
+        SUDA2IntSetBits.dataSize = data.length;
     }
 
     /**
@@ -251,6 +256,30 @@ public class SUDA2 {
         // Return all items
         return items;
     }
+    
+    /**
+     * Returns all 1-MSUs
+     * @param list
+     * @return
+     */
+    private List<SUDA2ItemSet> get1MSUs(SUDA2ItemList list) {
+
+      // Prepare
+      List<SUDA2ItemSet> msus = new ArrayList<>();
+      Set<Integer> oneMSURows = new HashSet<Integer>();
+      
+      // Check the items
+      for (SUDA2Item item : list.getList()) {
+
+          // Add 1-MSUs while removing perfectly correlated items
+          if (item.getSupport() == 1 && oneMSURows.add(item.getRows().min())) {
+              msus.add(new SUDA2ItemSet(item));
+          }
+      }
+
+      // Return
+      return msus;
+    }
 
     /**
      * Clears the list and returns all MSUs
@@ -262,19 +291,38 @@ public class SUDA2 {
         
         // Prepare
         List<SUDA2ItemSet> msus = new ArrayList<>();
+        Map<Integer,Set<SUDA2IntSet>> supportToRows = new HashMap<Integer,Set<SUDA2IntSet>>();
+        Set<Integer> oneMSURows = new HashSet<Integer>();
+        
+        List<SUDA2Item> result = new ArrayList<SUDA2Item>();
         
         // Check the items
-        List<SUDA2Item> result = new ArrayList<SUDA2Item>();
         for (SUDA2Item item : list.getList()) {
 
-            // All unique items are already MSUs
-            if (item.getSupport() == 1) {
-                msus.add(new SUDA2ItemSet(item));
+            int supp = item.getSupport();
 
-            // All items appearing in all rows can be ignored
-            } else if (item.getSupport() != numRecords) {
-                result.add(item);
+            // All unique items are already MSUs
+            if (supp == 1) {
+                
+                // Remove perfectly correlated items
+                if (oneMSURows.add(item.getRows().min())) {
+                    msus.add(new SUDA2ItemSet(item));
+                }
+                
+               // All items appearing in all rows can be ignored
+            } else if (supp != numRecords) {
+                
+                // Remove perfectly correlated items
+                if (!supportToRows.containsKey(supp)) {
+                    supportToRows.put(supp, new HashSet<SUDA2IntSet>());
+                }
+                Set<SUDA2IntSet> bucket = supportToRows.get(supp);
+                if (bucket.add(item.getRows())) {
+                    result.add(item);
+                }
+                
             }
+
         }
 
         // Return
@@ -389,6 +437,25 @@ public class SUDA2 {
                                     SUDA2ItemList currentList,
                                     int numRecords) {
 
+        // Check for maxK
+        if (maxK <= 1) {
+            
+            // Get 1-MSUs
+            List<SUDA2ItemSet> msus = get1MSUs(currentList);
+            
+            // When processing the original table
+            if (numRecords == data.length) {
+                
+                // Register 1-MSUs for the original table
+                for (SUDA2ItemSet msu : msus) {
+                    result.registerKey(msu);
+                }
+            }
+            
+            // Return
+            return msus;
+        }
+        
         // Find MSUs and clear list
         Pair<List<SUDA2ItemSet>, SUDA2ItemList> msusAndList = getMSUs(currentList, numRecords);
         List<SUDA2ItemSet> msus = msusAndList.first;
@@ -405,11 +472,6 @@ public class SUDA2 {
         
         if (stop) {
             throw new SUDA2Exception("Interrupted");
-        }
-
-        // Check for maxK
-        if (maxK <= 1) {
-            return msus;
         }
 
         // For each item i

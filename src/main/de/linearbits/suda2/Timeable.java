@@ -9,7 +9,7 @@ package de.linearbits.suda2;
 public abstract class Timeable {
     
     /** Whether timing is enabled */
-    private static final boolean ENABLED                    = false;
+    private static final boolean ENABLED                    = true;
 
     /** Index */
     public static final int      TYPE_INT_SET_BITS          = 0;
@@ -39,13 +39,13 @@ public abstract class Timeable {
     /** Data */
     public static long[]         methodCallCount            = new long[METHOD_COUNT];
     /** Data */
-    public static long[][]       typeMethodCallTime         = new long[TYPE_COUNT][METHOD_COUNT];
+    public static long[][]       typeMethodCallTime         = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
     /** Data */
-    public static long[][]       typeMethodCallCount        = new long[TYPE_COUNT][METHOD_COUNT];
+    public static long[][]       typeMethodCallCount        = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
     /** Data */
-    public static long[][][]     typeMethodSizeCountBuckets = new long[TYPE_COUNT][METHOD_COUNT][7];
+    public static long[][][]     typeMethodSizeCountBuckets = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
     /** Data */
-    public static long[][][]     typeMethodSizeTimeBuckets  = new long[TYPE_COUNT][METHOD_COUNT][7];
+    public static long[][][]     typeMethodSizeTimeBuckets  = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
     
     /**
      * Resets all timers
@@ -54,10 +54,10 @@ public abstract class Timeable {
         instanceCount              = new long[TYPE_COUNT];
         methodCallTime             = new long[METHOD_COUNT];
         methodCallCount            = new long[METHOD_COUNT];
-        typeMethodCallTime         = new long[TYPE_COUNT][METHOD_COUNT];
-        typeMethodCallCount        = new long[TYPE_COUNT][METHOD_COUNT];
-        typeMethodSizeCountBuckets = new long[TYPE_COUNT][METHOD_COUNT][7];
-        typeMethodSizeTimeBuckets  = new long[TYPE_COUNT][METHOD_COUNT][7];
+        typeMethodCallTime         = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
+        typeMethodCallCount        = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
+        typeMethodSizeCountBuckets = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
+        typeMethodSizeTimeBuckets  = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
     }
     
     /** Time stamp*/
@@ -80,10 +80,11 @@ public abstract class Timeable {
     /**
      * End timing of a method invocation
      * @param method
+     * @param startTime 
      */
-    protected void endTiming(int method) {
+    protected void endTiming(int method, Long startTime) {
         if (ENABLED) {
-            methodCallTime[method] = System.nanoTime() - time;
+            methodCallTime[method] += System.nanoTime() - startTime;
             methodCallCount[method]++;
         }
     }
