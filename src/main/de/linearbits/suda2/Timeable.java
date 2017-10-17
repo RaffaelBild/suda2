@@ -9,7 +9,7 @@ package de.linearbits.suda2;
 public abstract class Timeable {
     
     /** Whether timing is enabled */
-    private static final boolean ENABLED                    = false;
+    private static final boolean ENABLED                    = true;
 
     /** Index */
     public static final int      TYPE_INT_SET_BITS          = 0;
@@ -104,10 +104,11 @@ public abstract class Timeable {
     /**
      * End timing of a method invocation
      * @param method
+     * @param startTime
      */
-    protected void endTiming(int method) {
+    protected void endTiming(int method, long startTime) {
         if (ENABLED) {
-            methodCallTime[method] = System.nanoTime() - time;
+            methodCallTime[method] += System.nanoTime() - startTime;
             methodCallCount[method]++;
         }
     }
