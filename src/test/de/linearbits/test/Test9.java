@@ -52,12 +52,13 @@ public class Test9 extends AbstractTest{
             System.out.println("New sets branch");
             System.out.println("Dataset: " + file + " length: " + dataset.length);
             // Process
-            int REPETITIONS = dataset.equals("data/test6.csv") ? 1 : 20;
+            int REPETITIONS = file.equals("data/test6.csv") ? 1 : 20;
+            System.out.println("Repetitions: " + REPETITIONS);
             long time = System.nanoTime();
             for (int i=0; i<REPETITIONS; i++) {
-//                long time2 = System.currentTimeMillis();
+                long time2 = System.currentTimeMillis();
                 new SUDA2(dataset).getKeyStatistics(0, true);
-//                System.out.println(" Run: " + (System.currentTimeMillis() - time2));
+                System.out.println(" Run: " + (System.currentTimeMillis() - time2));
             }
 //            time = (long)((System.nanoTime() - time) / (double)REPETITIONS);
             System.out.println(" - Average time: " + (float)((System.nanoTime() - time) / (double)REPETITIONS / 1e9d));
