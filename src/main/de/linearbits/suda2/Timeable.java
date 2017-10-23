@@ -9,43 +9,43 @@ package de.linearbits.suda2;
 public abstract class Timeable {
     
     /** Whether timing is enabled */
-    private static final boolean ENABLED                    = false;
+    public static final boolean ENABLED                    = false;
 
     /** Index */
-    public static final int      TYPE_INT_SET_BITS          = 0;
+    public static final int     TYPE_INT_SET_BITS          = 0;
     /** Index */
-    public static final int      TYPE_INT_SET_HASH          = 1;
+    public static final int     TYPE_INT_SET_HASH          = 1;
     /** Index */
-    public static final int      TYPE_INT_SET_SMALL         = 2;
+    public static final int     TYPE_INT_SET_SMALL         = 2;
     /** Index */
-    public static final int      TYPE_COUNT                 = 3;
+    public static final int     TYPE_COUNT                 = 3;
     /** Index */
-    public static final int      METHOD_PROJECTION          = 0;
+    public static final int     METHOD_PROJECTION          = 0;
     /** Index */
-    public static final int      METHOD_COUNT               = 1;
+    public static final int     METHOD_COUNT               = 1;
     /** Index */
-    public static final int      TYPE_METHOD_SPECIALROW     = 0;
+    public static final int     TYPE_METHOD_SPECIALROW     = 0;
     /** Index */
-    public static final int      TYPE_METHOD_SUPPORTROW     = 1;
+    public static final int     TYPE_METHOD_SUPPORTROW     = 1;
     /** Index */
-    public static final int      TYPE_METHOD_INTERSECTION   = 2;
+    public static final int     TYPE_METHOD_INTERSECTION   = 2;
     /** Index */
-    public static final int      TYPE_METHOD_COUNT          = 3;
+    public static final int     TYPE_METHOD_COUNT          = 3;
 
     /** Data */
-    public static long[]         instanceCount              = new long[TYPE_COUNT];
+    public static long[]        instanceCount              = new long[TYPE_COUNT];
     /** Data */
-    public static long[]         methodCallTime             = new long[METHOD_COUNT];
+    public static long[]        methodCallTime             = new long[METHOD_COUNT];
     /** Data */
-    public static long[]         methodCallCount            = new long[METHOD_COUNT];
+    public static long[]        methodCallCount            = new long[METHOD_COUNT];
     /** Data */
-    public static long[][]       typeMethodCallTime         = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
+    public static long[][]      typeMethodCallTime         = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
     /** Data */
-    public static long[][]       typeMethodCallCount        = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
+    public static long[][]      typeMethodCallCount        = new long[TYPE_COUNT][TYPE_METHOD_COUNT];
     /** Data */
-    public static long[][][]     typeMethodSizeCountBuckets = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
+    public static long[][][]    typeMethodSizeCountBuckets = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
     /** Data */
-    public static long[][][]     typeMethodSizeTimeBuckets  = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
+    public static long[][][]    typeMethodSizeTimeBuckets  = new long[TYPE_COUNT][TYPE_METHOD_COUNT][7];
     
     /**
      * Timing overview
@@ -107,7 +107,7 @@ public abstract class Timeable {
      */
     protected void endTiming(int method) {
         if (ENABLED) {
-            methodCallTime[method] = System.nanoTime() - time;
+            methodCallTime[method] += System.nanoTime() - time;
             methodCallCount[method]++;
         }
     }

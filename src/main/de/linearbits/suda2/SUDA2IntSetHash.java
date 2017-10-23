@@ -189,6 +189,48 @@ public class SUDA2IntSetHash extends SUDA2IntSet {
 
         return result;
     }
+    
+    public SUDA2IntSet intersectWith(SUDA2IntSet paramSUDA2IntSet, int min, int max) {
+        
+        // ----------------------------------------------------- //
+        startTiming();
+        // ----------------------------------------------------- //
+        
+        SUDA2IntSet result = null;
+        if (this.size <= 8) {
+            result = new SUDA2IntSetJump();
+        } else {
+            // Estimate size assuming uniform distribution
+            int estimatedSize = (int)(this.size * (max - min) / (this.max - this.min)) + 1;
+
+            // Calculate capacity needed for hash set of estimated size
+            int capacity = estimatedSize - 1;
+            capacity |= capacity >> 1;
+            capacity |= capacity >> 2;
+            capacity |= capacity >> 4;
+            capacity |= capacity >> 8;
+            capacity |= capacity >> 16;
+            capacity++;
+
+            if (capacity << 5 >= max - min) {
+                result = new SUDA2IntSetBits(min, max);
+            } else {
+                result = new SUDA2IntSetHash();
+            }
+        }
+        for (int i = 0; i < this.buckets.length; i++) {
+            int row = this.buckets[i];
+            if ((row != 0) && (row >= min) && (row <= max) && (paramSUDA2IntSet.contains(row))) {
+                result.add(row);
+            }
+        }
+        
+        // ----------------------------------------------------- //
+        endTiming(TYPE_INT_SET_HASH, TYPE_METHOD_INTERSECTION, size);
+        // ----------------------------------------------------- //
+        
+        return result;
+    }
 
     @Override
     public boolean isBitSet() {

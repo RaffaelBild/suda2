@@ -54,6 +54,14 @@ public abstract class SUDA2IntSet extends Timeable {
     public abstract SUDA2IntSet intersectWith(SUDA2IntSet other);
     
     /**
+     * Returns a new set that contains only elements contained in both sets
+     * 
+     * @param other
+     * @return
+     */
+    public abstract SUDA2IntSet intersectWith(SUDA2IntSet other, int min, int max);
+    
+    /**
      * Returns whether the set is a bit set
      * @return
      */

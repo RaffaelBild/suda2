@@ -156,6 +156,47 @@ public class SUDA2IntSetBits extends SUDA2IntSet {
         }
     }
     
+    public SUDA2IntSet intersectWith(SUDA2IntSet paramSUDA2IntSet, int min, int max) {
+        if (paramSUDA2IntSet.isBitSet()) {
+            // ----------------------------------------------------- //
+            startTiming();
+            // ----------------------------------------------------- //
+            SUDA2IntSetBits localSUDA2IntSetBits1 = (SUDA2IntSetBits)paramSUDA2IntSet;
+            SUDA2IntSetBits localSUDA2IntSetBits2 = new SUDA2IntSetBits(min, max);
+            int i = this.offset / 64;
+            int j = localSUDA2IntSetBits1.offset / 64;
+            int k = localSUDA2IntSetBits2.offset / 64;
+            int m = Math.max(i, Math.max(j, k));
+            i = m - i;
+            j = m - j;
+            k = m - k;
+            min = 2147483647;
+            max = -2147483648;
+            while ((k < localSUDA2IntSetBits2.array.length) && (i < this.array.length) && (j < localSUDA2IntSetBits1.array.length)) {
+                long l = this.array[(i++)] & localSUDA2IntSetBits1.array[(j++)];
+                if (l != 0L) {
+                    localSUDA2IntSetBits2.size += Long.bitCount(l);
+                    localSUDA2IntSetBits2.array[k] = l;
+                    min = Math.min((k << 6) + Long.numberOfTrailingZeros(l), min);
+                    max = Math.max((k << 6) - Long.numberOfLeadingZeros(l), max);
+                }
+                k++;
+            }
+            if (localSUDA2IntSetBits2.size == 0) {
+                localSUDA2IntSetBits2.min = 0;
+                localSUDA2IntSetBits2.max = 0;
+            } else {
+                localSUDA2IntSetBits2.min = (localSUDA2IntSetBits2.offset + min);
+                localSUDA2IntSetBits2.max = (localSUDA2IntSetBits2.offset + max + 63);
+            }
+            // ----------------------------------------------------- //
+            endTiming(TYPE_INT_SET_BITS, TYPE_METHOD_INTERSECTION, size);
+            // ----------------------------------------------------- //
+            return localSUDA2IntSetBits2;
+        }
+        return paramSUDA2IntSet.intersectWith(this);
+    }
+    
     @Override
     public boolean isBitSet() {
         return true;

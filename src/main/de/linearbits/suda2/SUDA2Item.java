@@ -144,6 +144,32 @@ public class SUDA2Item extends Timeable {
         // Return
         return rows.size() == 0 ? null : new SUDA2Item(this.column, this.value, this.id, rows);
     }
+    
+    /**
+     * Returns an instance of this item projected to the given rows
+     * @param otherRows
+     * @param min
+     * @param max
+     * @return
+     */
+    public SUDA2Item getProjection(SUDA2IntSet otherRows, int min, int max) {
+        
+        startTiming();
+
+        // Smaller set is rows1
+        int size1 = this.rows.size();
+        int size2 = otherRows.size();
+        SUDA2IntSet rows1 = size1 < size2 ? this.rows : otherRows;
+        SUDA2IntSet rows2 = size1 < size2 ? otherRows : this.rows;
+        
+        // Intersect
+        SUDA2IntSet rows = rows1.intersectWith(rows2, min, max);
+        
+        endTiming(METHOD_PROJECTION);
+
+        // Return
+        return rows.size() == 0 ? null : new SUDA2Item(this.column, this.value, this.id, rows);
+    }
 
     /**
      * Returns the rows in which this item is located

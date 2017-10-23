@@ -175,6 +175,40 @@ public class SUDA2 {
     }
     
     /**
+     * Executes the SUDA2 algorithm.
+     * 
+     * @param maxKeyLength If maxKeyLength <= 0, maxKeyLength will be set to the number of columns
+     * @param sdcMicroScores Calculate SUDA scores analogously to sdcMicro
+     * @return
+     */
+    public SUDA2StatisticsAll getKeyStatisticsAndScores(int maxKeyLength, boolean sdcMicroScores) {
+        
+        // If maxK <= 0, maxK will be set to the number of columns
+        maxKeyLength = maxKeyLength > 0 ? maxKeyLength : columns;
+        
+        // Execute
+        this.result = new SUDA2StatisticsAll(this.data.length, this.columns, maxKeyLength, sdcMicroScores);
+        
+        // Check
+        if (isEmpty(this.data)) {
+            return (SUDA2StatisticsAll)this.result;
+        }
+        
+        // Prepare
+        Pair<SUDA2ItemRegistry, Pair<Integer, Integer>> state = getInitialState();
+        SUDA2ItemRegistry list = state.first;
+        int numUniqueRecords = state.second.first;
+        int numDuplicateRecords = state.second.second;
+        
+        // Execute
+        this.result.init(this.columns, maxKeyLength, numUniqueRecords, numDuplicateRecords);
+        this.suda2(maxKeyLength, list, data.length);
+        
+        // Return
+        return (SUDA2StatisticsAll)this.result;
+    }
+    
+    /**
      * Sets a progress listener
      * @param progressListener
      */

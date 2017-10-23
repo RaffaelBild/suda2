@@ -147,6 +147,32 @@ public class SUDA2IntSetJump extends SUDA2IntSet {
         // Return
         return rows;
     }
+    
+    public SUDA2IntSet intersectWith(SUDA2IntSet other, int min, int max) {
+        // ----------------------------------------------------- //
+        startTiming();
+        // ----------------------------------------------------- //
+
+        // Intersect support rows with those provided
+        SUDA2IntSetJump rows = new SUDA2IntSetJump();
+        switch (size) {
+        case 8: if (other.contains(int7)) { rows.add(int7); }
+        case 7: if (other.contains(int6)) { rows.add(int6); }
+        case 6: if (other.contains(int5)) { rows.add(int5); }
+        case 5: if (other.contains(int4)) { rows.add(int4); }
+        case 4: if (other.contains(int3)) { rows.add(int3); }
+        case 3: if (other.contains(int2)) { rows.add(int2); }
+        case 2: if (other.contains(int1)) { rows.add(int1); }
+        case 1: if (other.contains(int0)) { rows.add(int0); }
+        }
+        
+        // ----------------------------------------------------- //
+        endTiming(TYPE_INT_SET_SMALL, TYPE_METHOD_INTERSECTION, size);
+        // ----------------------------------------------------- //
+
+        // Return
+        return rows;
+    }
 
     @Override
     public boolean isBitSet() {
