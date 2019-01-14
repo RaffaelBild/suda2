@@ -65,23 +65,6 @@
 <div class="contentContainer">
 <ul class="blockList">
 <li class="blockList">
-<table class="packageSummary" border="0" cellpadding="3" cellspacing="0" summary="Interface Summary table, listing interfaces, and an explanation">
-<caption><span>Interface Summary</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Interface</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2ListenerProgress.html" title="interface in de.linearbits.suda2">SUDA2ListenerProgress</a></td>
-<td class="colLast">
-<div class="block">A progress listener for SUDA2</div>
-</td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
 <table class="packageSummary" border="0" cellpadding="3" cellspacing="0" summary="Class Summary table, listing classes, and an explanation">
 <caption><span>Class Summary</span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
@@ -102,45 +85,57 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2IndexedItemSet.html" title="class in de.linearbits.suda2">SUDA2IndexedItemSet</a></td>
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2IntSet.html" title="class in de.linearbits.suda2">SUDA2IntSet</a></td>
 <td class="colLast">
-<div class="block">A set of items</div>
+<div class="block">Abstract int set</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2IntSet.html" title="class in de.linearbits.suda2">SUDA2IntSet</a></td>
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2IntSetBits.html" title="class in de.linearbits.suda2">SUDA2IntSetBits</a></td>
+<td class="colLast">
+<div class="block">A set of rows.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2IntSetHash.html" title="class in de.linearbits.suda2">SUDA2IntSetHash</a></td>
 <td class="colLast">
 <div class="block">A very basic integer set using murmur hashing and linear probing.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2IntSetJump.html" title="class in de.linearbits.suda2">SUDA2IntSetJump</a></td>
+<td class="colLast">
+<div class="block">A very basic integer set</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a></td>
 <td class="colLast">
-<div class="block">Each itemset is a concrete value for a concrete attribute</div>
+<div class="block">Each item is a concrete value for a concrete attribute</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html" title="class in de.linearbits.suda2">SUDA2ItemIndex</a></td>
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html" title="class in de.linearbits.suda2">SUDA2ItemRegistry</a></td>
 <td class="colLast">
-<div class="block">A very basic map from long identifiers to items</div>
+<div class="block">A set of items</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2ItemList.html" title="class in de.linearbits.suda2">SUDA2ItemList</a></td>
-<td class="colLast">
-<div class="block">A list of items.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2ItemSet.html" title="class in de.linearbits.suda2">SUDA2ItemSet</a></td>
 <td class="colLast">
 <div class="block">Each item set is a concrete key, i.e.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2ListenerKey.html" title="class in de.linearbits.suda2">SUDA2ListenerKey</a></td>
 <td class="colLast">
 <div class="block">Listener for MSU discoveries</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2ListenerProgress.html" title="class in de.linearbits.suda2">SUDA2ListenerProgress</a></td>
+<td class="colLast">
+<div class="block">A progress listener for SUDA2</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -156,9 +151,27 @@
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2Statistics.html" title="class in de.linearbits.suda2">SUDA2Statistics</a></td>
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2StatisticsColumns.html" title="class in de.linearbits.suda2">SUDA2StatisticsColumns</a></td>
 <td class="colLast">
 <div class="block">The result of executing SUDA2</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2StatisticsKeys.html" title="class in de.linearbits.suda2">SUDA2StatisticsKeys</a></td>
+<td class="colLast">
+<div class="block">The result of executing SUDA2</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a href="../../../de/linearbits/suda2/SUDA2StatisticsScores.html" title="class in de.linearbits.suda2">SUDA2StatisticsScores</a></td>
+<td class="colLast">
+<div class="block">A class for calculating SUDA scores</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a href="../../../de/linearbits/suda2/Timeable.html" title="class in de.linearbits.suda2">Timeable</a></td>
+<td class="colLast">
+<div class="block">Abstract base class providing rudimentary timing methods</div>
 </td>
 </tr>
 </tbody>

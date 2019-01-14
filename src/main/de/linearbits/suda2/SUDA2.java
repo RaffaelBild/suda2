@@ -91,8 +91,8 @@ public class SUDA2 {
         }
         
         // Prepare
-        Pair<SUDA2ItemList, Pair<Integer, Integer>> state = getInitialState();
-        SUDA2ItemList list = state.first;
+        Pair<SUDA2ItemRegistry, Pair<Integer, Integer>> state = getInitialState();
+        SUDA2ItemRegistry list = state.first;
         int numUniqueRecords = state.second.first;
         int numDuplicateRecords = state.second.second;
         
@@ -101,34 +101,6 @@ public class SUDA2 {
         this.result.init(this.columns, maxKeyLength, numUniqueRecords, numDuplicateRecords);
         this.suda2(maxKeyLength, list, data.length);
     }
-    
-    /**
-     * Executes the SUDA2 algorithm, calls the callback for each key found
-     * 
-     * @return
-     */
-    public void getKeys(SUDA2ListenerKey listener) {
-       getKeys(0, listener); 
-    }
-
-    /**
-     * Executes the SUDA2 algorithm.
-     * 
-     * @return
-     */
-    public SUDA2Statistics getKeyStatistics() {
-        return getKeyStatistics(0, false);
-    }
-    
-    /**
-     * Executes the SUDA2 algorithm.
-     * @param sdcMicroScores Calculate SUDA scores analogously to sdcMicro
-     * 
-     * @return
-     */
-    public SUDA2Statistics getKeyStatistics(boolean sdcMicroScores) {
-        return getKeyStatistics(0, sdcMicroScores);
-    }
 
     /**
      * Executes the SUDA2 algorithm.
@@ -136,33 +108,22 @@ public class SUDA2 {
      * @param maxKeyLength If maxKeyLength <= 0, maxKeyLength will be set to the number of columns
      * @return
      */
-    public SUDA2Statistics getKeyStatistics(int maxKeyLength) {
-        return getKeyStatistics(maxKeyLength, false);
-    }
-
-    /**
-     * Executes the SUDA2 algorithm.
-     * 
-     * @param maxKeyLength If maxKeyLength <= 0, maxKeyLength will be set to the number of columns
-     * @param sdcMicroScores Calculate SUDA scores analogously to sdcMicro
-     * @return
-     */
-    public SUDA2Statistics getKeyStatistics(int maxKeyLength, boolean sdcMicroScores) {
+    public SUDA2StatisticsKeys getStatisticsKeys(int maxKeyLength) {
         
         // If maxK <= 0, maxK will be set to the number of columns
         maxKeyLength = maxKeyLength > 0 ? maxKeyLength : columns;
         
         // Execute
-        this.result = new SUDA2Statistics(this.data.length, this.columns, maxKeyLength, sdcMicroScores);
+        this.result = new SUDA2StatisticsKeys(this.data.length, this.columns, maxKeyLength);
         
         // Check
         if (isEmpty(this.data)) {
-            return (SUDA2Statistics)this.result;
+            return (SUDA2StatisticsKeys)this.result;
         }
         
         // Prepare
-        Pair<SUDA2ItemList, Pair<Integer, Integer>> state = getInitialState();
-        SUDA2ItemList list = state.first;
+        Pair<SUDA2ItemRegistry, Pair<Integer, Integer>> state = getInitialState();
+        SUDA2ItemRegistry list = state.first;
         int numUniqueRecords = state.second.first;
         int numDuplicateRecords = state.second.second;
         
@@ -171,7 +132,75 @@ public class SUDA2 {
         this.suda2(maxKeyLength, list, data.length);
         
         // Return
-        return (SUDA2Statistics)this.result;
+        return (SUDA2StatisticsKeys)this.result;
+    }
+
+    /**
+     * Executes the SUDA2 algorithm.
+     * 
+     * @param maxKeyLength If maxKeyLength <= 0, maxKeyLength will be set to the number of columns
+     * @param sdcMicroScores Whether to mimic sdcMicro or use original definition by Elliot
+     * @return
+     */
+    public SUDA2StatisticsColumns getStatisticsColumns(int maxKeyLength, boolean sdcMicroScores) {
+        
+        // If maxK <= 0, maxK will be set to the number of columns
+        maxKeyLength = maxKeyLength > 0 ? maxKeyLength : columns;
+        
+        // Execute
+        this.result = new SUDA2StatisticsColumns(this.data.length, this.columns, maxKeyLength, sdcMicroScores);
+        
+        // Check
+        if (isEmpty(this.data)) {
+            return (SUDA2StatisticsColumns)this.result;
+        }
+        
+        // Prepare
+        Pair<SUDA2ItemRegistry, Pair<Integer, Integer>> state = getInitialState();
+        SUDA2ItemRegistry list = state.first;
+        int numUniqueRecords = state.second.first;
+        int numDuplicateRecords = state.second.second;
+        
+        // Execute
+        this.result.init(this.columns, maxKeyLength, numUniqueRecords, numDuplicateRecords);
+        this.suda2(maxKeyLength, list, data.length);
+        
+        // Return
+        return (SUDA2StatisticsColumns)this.result;
+    }
+
+    /**
+     * Executes the SUDA2 algorithm.
+     * 
+     * @param maxKeyLength If maxKeyLength <= 0, maxKeyLength will be set to the number of columns
+     * @param sdcMicroScores Whether to mimic sdcMicro or use original definition by Elliot
+     * @return
+     */
+    public SUDA2StatisticsScores getStatisticsScores(int maxKeyLength, boolean sdcMicroScores) {
+        
+        // If maxK <= 0, maxK will be set to the number of columns
+        maxKeyLength = maxKeyLength > 0 ? maxKeyLength : columns;
+        
+        // Execute
+        this.result = new SUDA2StatisticsScores(this.data.length, this.columns, maxKeyLength, sdcMicroScores);
+        
+        // Check
+        if (isEmpty(this.data)) {
+            return (SUDA2StatisticsScores)this.result;
+        }
+        
+        // Prepare
+        Pair<SUDA2ItemRegistry, Pair<Integer, Integer>> state = getInitialState();
+        SUDA2ItemRegistry list = state.first;
+        int numUniqueRecords = state.second.first;
+        int numDuplicateRecords = state.second.second;
+        
+        // Execute
+        this.result.init(this.columns, maxKeyLength, numUniqueRecords, numDuplicateRecords);
+        this.suda2(maxKeyLength, list, data.length);
+        
+        // Return
+        return (SUDA2StatisticsScores)this.result;
     }
     
     /**
@@ -204,23 +233,23 @@ public class SUDA2 {
      * Returns the initial state needed for executing the algorithm
      * @return
      */
-    private Pair<SUDA2ItemList, Pair<Integer, Integer>> getInitialState() {
+    private Pair<SUDA2ItemRegistry, Pair<Integer, Integer>> getInitialState() {
 
         // Collect all items and their support rows
-        SUDA2IndexedItemSet items = new SUDA2IndexedItemSet();
+        SUDA2ItemRegistry registry = new SUDA2ItemRegistry();
         SUDA2Groupify groupify = new SUDA2Groupify(data.length);
         int index = 1; // Value 0 is reserved for empty entries in SUDA2IntSet
         for (int[] row : data) {
             if (!groupify.canBeIgnored(row)) {
                 for (int column = 0; column < columns; column++) {
                     int value = row[column];
-                    SUDA2Item item = items.getOrCreateItem(column, value);
+                    SUDA2Item item = registry.register(column, value);
                     item.addRow(index);
                 }
             }
             index++;
         }
-        return new Pair<>(items.getItemList(), new Pair<>(groupify.getNumUniqueRecords(), groupify.getNumDuplicateRecords()));
+        return new Pair<>(registry, new Pair<>(groupify.getNumUniqueRecords(), groupify.getNumDuplicateRecords()));
     }
 
     /**
@@ -231,11 +260,11 @@ public class SUDA2 {
      * @param fromIndex 
      * @return
      */
-    private SUDA2IndexedItemSet getItems(SUDA2ItemList itemList, SUDA2Item reference, int fromIndex) {
+    private SUDA2ItemRegistry getItems(List<SUDA2Item> itemList, SUDA2Item reference, int fromIndex) {
 
         // For all items within the given range
-        SUDA2IndexedItemSet items = new SUDA2IndexedItemSet();
-        List<SUDA2Item> list = itemList.getList();
+        SUDA2ItemRegistry items = new SUDA2ItemRegistry();
+        List<SUDA2Item> list = itemList;
         SUDA2IntSet referenceRows = reference.getRows();
         for (int index = fromIndex; index < list.size(); index++) {
             
@@ -244,7 +273,7 @@ public class SUDA2 {
                         
             // If it is contained, add it
             if (item != null) {
-                items.addItem(item);
+                items.add(item);
             }
         }
         
@@ -258,14 +287,14 @@ public class SUDA2 {
      * @param numRecords
      * @return
      */
-    private Pair<List<SUDA2ItemSet>, SUDA2ItemList> getMSUs(SUDA2ItemList list, int numRecords) {
+    private Pair<List<SUDA2ItemSet>, List<SUDA2Item>> getMSUs(List<SUDA2Item> list, int numRecords) {
         
         // Prepare
         List<SUDA2ItemSet> msus = new ArrayList<>();
         
         // Check the items
         List<SUDA2Item> result = new ArrayList<SUDA2Item>();
-        for (SUDA2Item item : list.getList()) {
+        for (SUDA2Item item : list) {
 
             // All unique items are already MSUs
             if (item.getSupport() == 1) {
@@ -278,7 +307,7 @@ public class SUDA2 {
         }
 
         // Return
-        return new Pair<List<SUDA2ItemSet>, SUDA2ItemList>(msus, new SUDA2ItemList(result));
+        return new Pair<List<SUDA2ItemSet>, List<SUDA2Item>>(msus, result);
     }
 
     /**
@@ -289,11 +318,11 @@ public class SUDA2 {
      * @param fromIndex 
      * @return
      */
-    private List<SUDA2ItemSet> getMSUs(SUDA2ItemList itemList, SUDA2Item reference, int fromIndex) {
+    private List<SUDA2ItemSet> getMSUs(List<SUDA2Item> itemList, SUDA2Item reference, int fromIndex) {
 
         // For all items within the given range
         List<SUDA2ItemSet> result = new ArrayList<>();
-        List<SUDA2Item> list = itemList.getList();
+        List<SUDA2Item> list = itemList;
         SUDA2IntSet referenceRows = reference.getRows();
         for (int index = fromIndex; index < list.size(); index++) {
             SUDA2Item item = list.get(index).get1MSU(referenceRows);
@@ -317,12 +346,14 @@ public class SUDA2 {
     /**
      * Implements both checks for MSUs described in the paper
      * @param currentList
+     * @param registry
      * @param candidate
      * @param referenceItem
      * @return
      */
 
-    private boolean isMSU(final SUDA2ItemList currentList,
+    private boolean isMSU(final List<SUDA2Item> currentList,
+                          final SUDA2ItemRegistry registry,
                           SUDA2ItemSet candidate,
                           SUDA2Item referenceItem) {
 
@@ -348,8 +379,8 @@ public class SUDA2 {
         int candidateSize = candidate.size();
         for (int i = 0; i < candidateSize; i++) {
             SUDA2Item item = candidate.get(i);
-            SUDA2IntSet _rows = currentList.getItem(item.getId()).getRows();
-            if (rows == null || _rows.size < rows.size) {
+            SUDA2IntSet _rows = registry.get(item.getId()).getRows();
+            if (rows == null || _rows.size() < rows.size()) {
                 rows = _rows;
                 pivot = item;
             }
@@ -367,30 +398,15 @@ public class SUDA2 {
         Arrays.sort(items, new Comparator<SUDA2Item>() {
             @Override
             public int compare(SUDA2Item o1, SUDA2Item o2) {
-                int support1 = currentList.getItem(o1.getId()).getSupport();
-                int support2 = currentList.getItem(o2.getId()).getSupport();
+                int support1 = registry.get(o1.getId()).getSupport();
+                int support2 = registry.get(o2.getId()).getSupport();
                 return support1 < support2 ? -1 :
                        support1 > support2 ? +1 : 0;
             }
         });
         
         // And search for the special row
-        final int [] buckets = rows.buckets;
-        outer: for (int i = 0; i < buckets.length; i++) {
-            if (buckets[i] != 0) {
-                int[] row = data[buckets[i] - 1];
-                for (SUDA2Item item : items) {
-                    if (!item.isContained(row)) {
-                        continue outer;
-                    }
-                }
-                if (referenceItem.isContained(row)) {
-                    continue;
-                }
-                return true;
-            }
-        }
-        return false;
+        return rows.containsSpecialRow(items, referenceItem, data);
     }
 
     /**
@@ -401,11 +417,17 @@ public class SUDA2 {
      * @return
      */
     private List<SUDA2ItemSet> suda2(int maxK,
-                                    SUDA2ItemList currentList,
-                                    int numRecords) {
+                                     SUDA2ItemRegistry registry,
+                                     int numRecords) {
+        
+        // Tick
+        if (progressListener != null) {
+            progressListener.tick();
+        }
 
         // Find MSUs and clear list
-        Pair<List<SUDA2ItemSet>, SUDA2ItemList> msusAndList = getMSUs(currentList, numRecords);
+        List<SUDA2Item> currentList = registry.getSortedItemList();
+        Pair<List<SUDA2ItemSet>, List<SUDA2Item>> msusAndList = getMSUs(currentList, numRecords);
         List<SUDA2ItemSet> msus = msusAndList.first;
         currentList = msusAndList.second;
         
@@ -429,15 +451,14 @@ public class SUDA2 {
 
         // For each item i
         int index = 0;
-        int total = currentList.getList().size();
-        for (SUDA2Item referenceItem : currentList.getList()) {
+        int total = currentList.size();
+        for (SUDA2Item referenceItem : currentList) {
             
             // Track
             index++;
             
             // Progress information
             if (numRecords == data.length && progressListener != null) {
-             
                 progressListener.update((double)index / (double)total);
             }
 
@@ -450,8 +471,8 @@ public class SUDA2 {
             List<SUDA2ItemSet> msus_i;
             if (upperLimit > 1) {
                 msus_i = suda2(upperLimit,
-                               getItems(currentList, referenceItem, index).getItemList(),
-                               referenceItem.getRows().size);
+                               getItems(currentList, referenceItem, index),
+                               referenceItem.getRows().size());
             } else {
                 msus_i = getMSUs(currentList, referenceItem, index);
             }
@@ -460,7 +481,7 @@ public class SUDA2 {
             outer: for (SUDA2ItemSet candidate : msus_i) {
                 
                 // Check if candidate is an MSU
-                if (!isMSU(currentList, candidate, referenceItem)) {
+                if (!isMSU(currentList, registry, candidate, referenceItem)) {
                     continue outer;
                 }
 

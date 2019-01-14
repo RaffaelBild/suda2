@@ -2,13 +2,13 @@
 <!-- NewPage -->
 <html lang="en">
 <head>
-<title>SUDA2ItemIndex (SUDA2)</title>
+<title>SUDA2ItemRegistry (SUDA2)</title>
 <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="SUDA2ItemIndex (SUDA2)";
+        parent.document.title="SUDA2ItemRegistry (SUDA2)";
     }
 //-->
 </script>
@@ -24,7 +24,7 @@
 <ul class="navList" title="Navigation">
 <li><a href="../../../de/linearbits/suda2/package-summary.html">Package</a></li>
 <li class="navBarCell1Rev">Class</li>
-<li><a href="class-use/SUDA2ItemIndex.html">Use</a></li>
+<li><a href="class-use/SUDA2ItemRegistry.html">Use</a></li>
 <li><a href="package-tree.html">Tree</a></li>
 <li><a href="../../../deprecated-list.html">Deprecated</a></li>
 <li><a href="../../../index-files/index-1.html">Index</a></li>
@@ -34,11 +34,11 @@
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../de/linearbits/suda2/SUDA2ItemList.html" title="class in de.linearbits.suda2"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../de/linearbits/suda2/SUDA2ItemSet.html" title="class in de.linearbits.suda2"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
-<li><a href="../../../index.html?de/linearbits/suda2/SUDA2ItemIndex.html" target="_top">Frames</a></li>
-<li><a href="SUDA2ItemIndex.html" target="_top">No Frames</a></li>
+<li><a href="../../../index.html?de/linearbits/suda2/SUDA2ItemRegistry.html" target="_top">Frames</a></li>
+<li><a href="SUDA2ItemRegistry.html" target="_top">No Frames</a></li>
 </ul>
 <ul class="navList" id="allclasses_navbar_top">
 <li><a href="../../../allclasses-noframe.html">All Classes</a></li>
@@ -77,14 +77,14 @@
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle">de.linearbits.suda2</div>
-<h2 title="Class SUDA2ItemIndex" class="title">Class SUDA2ItemIndex</h2>
+<h2 title="Class SUDA2ItemRegistry" class="title">Class SUDA2ItemRegistry</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>de.linearbits.suda2.SUDA2ItemIndex</li>
+<li>de.linearbits.suda2.SUDA2ItemRegistry</li>
 </ul>
 </li>
 </ul>
@@ -93,9 +93,9 @@
 <li class="blockList">
 <hr>
 <br>
-<pre>public class <span class="strong">SUDA2ItemIndex</span>
+<pre>public class <span class="strong">SUDA2ItemRegistry</span>
 extends java.lang.Object</pre>
-<div class="block">A very basic map from long identifiers to items</div>
+<div class="block">A set of items</div>
 </li>
 </ul>
 </div>
@@ -115,20 +115,14 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>long[]</code></td>
-<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#keys">keys</a></strong></code>
-<div class="block">The entry array.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#size">size</a></strong></code>
+<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html#size">size</a></strong></code>
 <div class="block">Current number of elements.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>[]</code></td>
-<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#values">values</a></strong></code>
+<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html#values">values</a></strong></code>
 <div class="block">The entry array.</div>
 </td>
 </tr>
@@ -147,7 +141,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#SUDA2ItemIndex()">SUDA2ItemIndex</a></strong>()</code>
+<td class="colOne"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html#SUDA2ItemRegistry()">SUDA2ItemRegistry</a></strong>()</code>
 <div class="block">Creates a new instance</div>
 </td>
 </tr>
@@ -167,28 +161,28 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a></code></td>
-<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#get(long)">get</a></strong>(long&nbsp;key)</code>&nbsp;</td>
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html#add(de.linearbits.suda2.SUDA2Item)">add</a></strong>(<a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;item)</code>
+<div class="block">Adds an item to this index</div>
+</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#getSlot(long)">getSlot</a></strong>(long&nbsp;key)</code>
-<div class="block">If the key is found, we return the slot index, else -(slot index + 1)</div>
+<td class="colFirst"><code><a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a></code></td>
+<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html#get(long)">get</a></strong>(long&nbsp;key)</code>
+<div class="block">Returns the item for a given key</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#put(long,%20de.linearbits.suda2.SUDA2Item)">put</a></strong>(long&nbsp;key,
-   <a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;value)</code>
-<div class="block">Adds a new value to the set</div>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html#getSortedItemList()">getSortedItemList</a></strong>()</code>
+<div class="block">Returns a list containing items sorted by rank</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemIndex.html#putSlot(long,%20int,%20de.linearbits.suda2.SUDA2Item)">putSlot</a></strong>(long&nbsp;key,
-       int&nbsp;slot,
-       <a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;value)</code>
-<div class="block">Inserts a value into the given slot</div>
+<td class="colFirst"><code><a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a></code></td>
+<td class="colLast"><code><strong><a href="../../../de/linearbits/suda2/SUDA2ItemRegistry.html#register(int,%20int)">register</a></strong>(int&nbsp;column,
+        int&nbsp;value)</code>
+<div class="block">Either returns an existing entry or creates a new one</div>
 </td>
 </tr>
 </table>
@@ -213,16 +207,6 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Field Detail</h3>
-<a name="keys">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>keys</h4>
-<pre>public&nbsp;long[] keys</pre>
-<div class="block">The entry array.</div>
-</li>
-</ul>
 <a name="values">
 <!--   -->
 </a>
@@ -251,13 +235,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="SUDA2ItemIndex()">
+<a name="SUDA2ItemRegistry()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>SUDA2ItemIndex</h4>
-<pre>public&nbsp;SUDA2ItemIndex()</pre>
+<h4>SUDA2ItemRegistry</h4>
+<pre>public&nbsp;SUDA2ItemRegistry()</pre>
 <div class="block">Creates a new instance</div>
 </li>
 </ul>
@@ -269,6 +253,17 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="add(de.linearbits.suda2.SUDA2Item)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>add</h4>
+<pre>public&nbsp;void&nbsp;add(<a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;item)</pre>
+<div class="block">Adds an item to this index</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>item</code> - </dd></dl>
+</li>
+</ul>
 <a name="get(long)">
 <!--   -->
 </a>
@@ -276,43 +271,34 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>get</h4>
 <pre>public&nbsp;<a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;get(long&nbsp;key)</pre>
-</li>
-</ul>
-<a name="getSlot(long)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getSlot</h4>
-<pre>public&nbsp;int&nbsp;getSlot(long&nbsp;key)</pre>
-<div class="block">If the key is found, we return the slot index, else -(slot index + 1)</div>
+<div class="block">Returns the item for a given key</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>key</code> - </dd>
 <dt><span class="strong">Returns:</span></dt><dd></dd></dl>
 </li>
 </ul>
-<a name="put(long, de.linearbits.suda2.SUDA2Item)">
+<a name="getSortedItemList()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>put</h4>
-<pre>public&nbsp;void&nbsp;put(long&nbsp;key,
-       <a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;value)</pre>
-<div class="block">Adds a new value to the set</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>key</code> - </dd><dd><code>value</code> - </dd></dl>
+<h4>getSortedItemList</h4>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&gt;&nbsp;getSortedItemList()</pre>
+<div class="block">Returns a list containing items sorted by rank</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>items</code> - </dd>
+<dt><span class="strong">Returns:</span></dt><dd></dd></dl>
 </li>
 </ul>
-<a name="putSlot(long, int, de.linearbits.suda2.SUDA2Item)">
+<a name="register(int, int)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>putSlot</h4>
-<pre>public&nbsp;void&nbsp;putSlot(long&nbsp;key,
-           int&nbsp;slot,
-           <a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;value)</pre>
-<div class="block">Inserts a value into the given slot</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>key</code> - </dd><dd><code>slot</code> - </dd><dd><code>value</code> - </dd></dl>
+<h4>register</h4>
+<pre>public&nbsp;<a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2">SUDA2Item</a>&nbsp;register(int&nbsp;column,
+                 int&nbsp;value)</pre>
+<div class="block">Either returns an existing entry or creates a new one</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>column</code> - </dd><dd><code>value</code> - </dd>
+<dt><span class="strong">Returns:</span></dt><dd></dd></dl>
 </li>
 </ul>
 </li>
@@ -331,7 +317,7 @@ extends java.lang.Object</pre>
 <ul class="navList" title="Navigation">
 <li><a href="../../../de/linearbits/suda2/package-summary.html">Package</a></li>
 <li class="navBarCell1Rev">Class</li>
-<li><a href="class-use/SUDA2ItemIndex.html">Use</a></li>
+<li><a href="class-use/SUDA2ItemRegistry.html">Use</a></li>
 <li><a href="package-tree.html">Tree</a></li>
 <li><a href="../../../deprecated-list.html">Deprecated</a></li>
 <li><a href="../../../index-files/index-1.html">Index</a></li>
@@ -341,11 +327,11 @@ extends java.lang.Object</pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../de/linearbits/suda2/SUDA2Item.html" title="class in de.linearbits.suda2"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../de/linearbits/suda2/SUDA2ItemList.html" title="class in de.linearbits.suda2"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../de/linearbits/suda2/SUDA2ItemSet.html" title="class in de.linearbits.suda2"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
-<li><a href="../../../index.html?de/linearbits/suda2/SUDA2ItemIndex.html" target="_top">Frames</a></li>
-<li><a href="SUDA2ItemIndex.html" target="_top">No Frames</a></li>
+<li><a href="../../../index.html?de/linearbits/suda2/SUDA2ItemRegistry.html" target="_top">Frames</a></li>
+<li><a href="SUDA2ItemRegistry.html" target="_top">No Frames</a></li>
 </ul>
 <ul class="navList" id="allclasses_navbar_bottom">
 <li><a href="../../../allclasses-noframe.html">All Classes</a></li>
