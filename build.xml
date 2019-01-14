@@ -6,7 +6,7 @@
 	<!-- defines the version number -->
 	<property name="version" value="0.0.1" />
 
-	<target name="release" depends="jars, javadoc">
+	<target name="release" depends="jars">
 	</target>
 
 	<target name="clean" depends="end-clean">
@@ -21,7 +21,7 @@
 		<mkdir dir="build" />
 		<mkdir dir="jars" />
 	</target>
-
+<!--
 	<target name="clean-javadoc">
 		<delete includeEmptyDirs="true" failonerror="true">
 			<fileset dir="doc" includes="**/*" defaultexcludes="yes">
@@ -43,29 +43,40 @@
 
 	<target name="javadoc" depends="javadoc-api">
 	</target>
-
+-->
 	<target name="compile" depends="prepare" description="compile the source ">
-		<javac includeantruntime="false" srcdir="src/main/" destdir="build" source="1.7">
+		<javac includeantruntime="false" srcdir="src/main/" destdir="build">
 			<classpath>
+				<path path="lib/hppc-0.6.0.jar"/>
 				<path path="src/main" />
+			</classpath>
+		</javac>
+		<javac includeantruntime="false" srcdir="src/test/" destdir="build">
+			<classpath>
+				<path path="lib/hppc-0.6.0.jar"/>
+				<path path="src/test" />
 			</classpath>
 		</javac>
 	</target>
 
 	<target name="jar-libs" depends="compile">
 		<jar destfile="jars/suda2-${version}.jar">
+			<zipfileset src="lib/hppc-0.6.0.jar"/>
 			<fileset dir="build" defaultexcludes="no" />
+			<manifest>
+				<attribute name="Main-Class" value="de.linearbits.test.Test9" />
+			</manifest>
 		</jar>
 	</target>
-
+<!--
 	<target name="jar-docs" depends="compile, javadoc">
 		<jar destfile="jars/suda2-${version}-doc.jar">
 			<fileset dir="doc" defaultexcludes="no" />
 		</jar>
 	</target>
+-->
 
-
-	<target name="jars" depends="jar-docs, jar-libs">
+	<target name="jars" depends="jar-libs">
 		<antcall target="end-clean" />
 	</target>
 </project>

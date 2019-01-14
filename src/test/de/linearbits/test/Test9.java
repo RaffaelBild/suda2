@@ -39,8 +39,7 @@ public class Test9 extends AbstractTest{
         // As array
         String[] files = new String[]{
             "data/test.csv",    // Adult
-            "data/test2.csv",   // Whatever
-            "data/test3.csv",   // Whatever
+            "data/test2.csv",   // ATUS
             "data/test4.csv",   // FARS
             "data/test7.csv",   // CUP
             "data/test5.csv",   // IHIS
@@ -51,7 +50,7 @@ public class Test9 extends AbstractTest{
             int[][] dataset = getData(file);
             System.out.println("Dataset: " + file + " length: " + dataset.length);
             // Process
-            int REPETITIONS = 5;
+            int REPETITIONS = 6;
             long time = System.currentTimeMillis();
             for (int i=0; i<REPETITIONS; i++) {
                 long time2 = System.currentTimeMillis();

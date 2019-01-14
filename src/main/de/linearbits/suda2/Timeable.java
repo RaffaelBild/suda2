@@ -18,7 +18,9 @@ public abstract class Timeable {
     /** Index */
     public static final int      TYPE_INT_SET_SMALL         = 2;
     /** Index */
-    public static final int      TYPE_COUNT                 = 3;
+    public static final int      TYPE_INT_SET_HPPC          = 3;
+    /** Index */
+    public static final int      TYPE_COUNT                 = 4;
     /** Index */
     public static final int      METHOD_PROJECTION          = 0;
     /** Index */

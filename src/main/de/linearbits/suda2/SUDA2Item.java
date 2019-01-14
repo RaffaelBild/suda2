@@ -52,7 +52,7 @@ public class SUDA2Item extends Timeable {
         this.column = column;
         this.value = value;
         this.id = id;
-        this.rows = new SUDA2IntSetHash();
+        this.rows = new SUDA2IntSetHPPC();
     }
     
     /**
