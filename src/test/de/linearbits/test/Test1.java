@@ -17,6 +17,7 @@
 package de.linearbits.test;
 
 import de.linearbits.suda2.SUDA2;
+import de.linearbits.suda2.SUDA2StatisticsColumns;
 import de.linearbits.suda2.SUDA2StatisticsKeys;
 
 /**
@@ -34,12 +35,16 @@ public class Test1 extends AbstractTest {
 
         // A simple example dataset
         int[][] data = new int[][] {
-                new int[] { 0, 3, 0, 1, 1 }, // 0 
-                new int[] { 0, 3, 0, 0, 1 }, // 1 
-                new int[] { 0, 3, 1, 1, 1 }, // 2
-                new int[] { 1, 3, 0, 1, 2 }, // 3 
-                new int[] { 0, 2, 0, 1, 2 }, // 4 
-                new int[] { 1, 2, 1, 0, 2 }  // 5
+                new int[] { 23, 0, 5 }, // 0 
+                new int[] { 48, 0, 5 }, // 0 
+                new int[] { 48, 0, 5 }, // 0 
+                new int[] { 23, 1, 5 }, // 0 
+                new int[] { 23, 1, 5 }, // 0 
+                new int[] { 23, 1, 6 }, // 0 
+                new int[] { 45, 1, 5 }, // 0 
+//                new int[] { 1, 3, 0, 1, 2 }, // 3 
+//                new int[] { 0, 2, 0, 1, 2 }, // 4 
+//                new int[] { 1, 2, 1, 0, 2 }  // 5
         };
 
         SUDA2StatisticsKeys result = new SUDA2(data).getStatisticsKeys(0);

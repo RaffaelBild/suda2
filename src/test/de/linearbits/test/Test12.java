@@ -45,6 +45,17 @@ public class Test12 extends AbstractTest{
         double[] result1 = new SUDA2(data).getStatisticsColumns(0, false).getColumnKeyContributions();
         System.out.println(Arrays.toString(result1));
         
+        // Run sdcMicro:
+        // require(sdcMicro)
+        // a <- c(2, 1, 1)
+        // b <- c(0, 3, 0)
+        // c <- c(0, 6, 0)
+        // d <- c(3, 16, 5)
+        // e <- c(1, 1, 1)
+        // data <- data.frame(a,b,c,d,e)
+        // su <- suda2(data)
+        // su
+        
         // SDCM:
         // 23.07692 19.23077 15.38462 46.15385 0.00000
         //

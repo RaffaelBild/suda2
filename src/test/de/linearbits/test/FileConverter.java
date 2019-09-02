@@ -16,19 +16,36 @@
  */
 package de.linearbits.test;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class FileConverter {
 
     public static void main(String[] args) throws IOException {
-        Iterator<String[]> iter = null;
-        write("data/test7.csv", iter);
+        
+        String name = "ss13acs_sparse";
+        File file = new File("data/" + name + ".csv");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        reader.readLine(); // skip header
+        
+        List<String[]> lines = new ArrayList<String[]>();
+        String line = reader.readLine();
+        while (line != null) {
+            lines.add(line.split(String.valueOf(";"), -1));
+            line = reader.readLine();
+        }
+        reader.close();
+
+        write("data/" + name + "_int.csv", lines.iterator());
     }
     
     private static void write(String file, Iterator<String[]> iterator) throws IOException {

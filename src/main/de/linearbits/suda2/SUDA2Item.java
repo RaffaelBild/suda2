@@ -23,6 +23,8 @@ package de.linearbits.suda2;
  */
 public class SUDA2Item extends Timeable {
     
+    public static boolean HPPC = false; 
+    
     /**
      * Packs column and value into a long to be used as a key
      * @param column
@@ -52,7 +54,8 @@ public class SUDA2Item extends Timeable {
         this.column = column;
         this.value = value;
         this.id = id;
-        this.rows = new SUDA2IntSetHash();
+        // TODO change here
+        this.rows = HPPC ? new SUDA2IntSetHPPC() : new SUDA2IntSetHash();
     }
     
     /**

@@ -35,26 +35,30 @@ public class Test8 extends AbstractTest{
      * @throws IOException 
      */
     public static void main(String[] args) throws IOException {
+        
+        String dataset = "data/test.csv";
+        
+        System.out.println("Dataset: " + dataset);
        
         // As array
-        int[][] data = getData("data/test3.csv");
+        int[][] data = getData(dataset);
         
-        // Process
-        int REPETITIONS = 10;
+//        // Process
+//        int REPETITIONS = 10;
+//        long time = System.currentTimeMillis();
+//        SUDA2Result result1 = null;
+//        for (int i=0; i<REPETITIONS; i++) {
+//            result1 = new SUDA2(data).getStatisticsKeys(0);
+//        }
+//        time = (long)((System.currentTimeMillis() - time) / (double)REPETITIONS);
+//        System.out.println("Time: " + time);
+//        System.out.println(result1);
+//        
         long time = System.currentTimeMillis();
-        SUDA2Result result1 = null;
-        for (int i=0; i<REPETITIONS; i++) {
-            result1 = new SUDA2(data).getStatisticsKeys(0);
-        }
-        time = (long)((System.currentTimeMillis() - time) / (double)REPETITIONS);
-        System.out.println("Time: " + time);
-        System.out.println(result1);
-        
-        time = System.currentTimeMillis();
-        for (int i=0; i<REPETITIONS; i++) {
+//        for (int i=0; i<REPETITIONS; i++) {
             new SUDA2Kodo().run(data, data[0].length);
-        }
-        time = (long)((System.currentTimeMillis() - time) / (double)REPETITIONS);
+//        }
+        time = System.currentTimeMillis() - time;
         System.out.println("Time: " + time);
     }
 }

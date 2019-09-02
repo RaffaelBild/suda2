@@ -17,9 +17,11 @@
 package de.linearbits.test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import de.linearbits.suda2.SUDA2;
-import de.linearbits.suda2.SUDA2StatisticsScores;
+import de.linearbits.suda2.SUDA2Item;
+import de.linearbits.suda2.SUDA2StatisticsKeys;
 import de.linearbits.suda2.Timeable;
 
 /**
@@ -35,29 +37,43 @@ public class Test11 extends AbstractTest{
      * @throws IOException 
      */
     public static void main(String[] args) throws IOException {
+        
+        SUDA2Item.HPPC = true;
        
         // As array
-        String[] files = new String[]{
-            "data/test.csv",    // Adult
-            "data/test2.csv",   // ATUS
-            "data/test4.csv",   // FARS
-            "data/test7.csv",   // CUP
-            "data/test5.csv",   // IHIS
-            "data/test6.csv"    // SS13ACS
+        String[][] jobs = new String[][] {
+//            new String[] {"data/adult_sparse_int.csv","5"},
+//            new String[] {"data/fars_sparse_int.csv","5"},
+//            new String[] {"data/atus_subset_sparse_int.csv","5"},
+//            new String[] {"data/ihis_subset_sparse_int.csv","5"},
+//            new String[] {"data/ss13acs_sparse_int.csv","5"},
+            new String[] {"data/test.csv","0"},    // Adult
+            new String[] {"data/test2.csv","0"},   // ATUS
+            new String[] {"data/test4.csv","0"},   // FARS
+//            new String[] {"data/test7.csv","0"},   // CUP
+            new String[] {"data/test5.csv","0"},   // IHIS
+            new String[] {"data/test6.csv","0"},    // SS13ACS
         };
         
-        for (String file : files) {
+        for (String[] job : jobs) {
+            
+            String file = job[0];
+            int maxKeyLength = Integer.valueOf(job[1]);
+            
             int[][] dataset = getData(file);
-            System.out.println("Dataset: " + file + " length: " + dataset.length);
+            System.out.println("Dataset: " + file + " length: " + dataset.length + " maximal key length: " + maxKeyLength);
             // Process
-            int REPETITIONS = 11;
+            int REPETITIONS = 1;
             long time = System.currentTimeMillis();
             for (int i=0; i<REPETITIONS; i++) {
                 long time2 = System.currentTimeMillis();
-                Timeable.reset();
-                SUDA2StatisticsScores stats = new SUDA2(dataset).getStatisticsScores(0, true);
-                double[] sudaDISScores = stats.getDISScores(0.01d);
-                System.out.println(" Run: " + (System.currentTimeMillis() - time2) + " MSUs: " + stats.getNumKeys() + " " + sudaDISScores);
+//                Timeable.reset();
+//                SUDA2StatisticsScores stats = new SUDA2(dataset).getStatisticsScores(maxKeyLength, true);
+//                double[] sudaDISScores = stats.getDISScores(0.01d);
+                SUDA2StatisticsKeys stats = new SUDA2(dataset).getStatisticsKeys(maxKeyLength);
+                double[] results = stats.getKeySizeDistribution();
+                System.out.println(" Run: " + (System.currentTimeMillis() - time2) + " MSUs: " + stats.getNumKeys() + " results: " + Arrays.toString(results));
+//                Timeable.printOverview();
             }
             time = (long)((System.currentTimeMillis() - time) / (double)REPETITIONS);
             System.out.println(" - Average time: " + time);

@@ -1,5 +1,5 @@
 /*
- * SUDA2: An implementation of the SUDA2 algorithm for Java
+ö * SUDA2: An implementation of the SUDA2 algorithm for Java
  * Copyright 2017 Fabian Prasser
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import de.linearbits.suda2.SUDA2;
+import de.linearbits.suda2.SUDA2Item;
 import de.linearbits.suda2.SUDA2StatisticsKeys;
 import de.linearbits.suda2.Timeable;
 
@@ -28,7 +29,7 @@ import de.linearbits.suda2.Timeable;
  * 
  * @author Fabian Prasser
  */
-public class Test9 extends AbstractTest{
+public class Test13 extends AbstractTest{
 
     /**
      * Main entry point
@@ -39,35 +40,36 @@ public class Test9 extends AbstractTest{
        
         // As array
         String[] files = new String[]{
-//            "data/test.csv",    // Adult
+            "data/test.csv",    // Adult
 //            "data/test2.csv",   // Whatever
 //            "data/test3.csv",   // Whatever
 //            "data/test4.csv",   // FARS
 //            "data/test7.csv",   // CUP
 //            "data/test5.csv",   // IHIS
 //            "data/test6.csv"    // SS13ACS
-"data/testAtusSubset.csv",
-"data/testIhisSubset.csv"
         };
+        
+        Timeable.ENABLED = true;
+        SUDA2Item.HPPC = true;
         
         for (String file : files) {
             int[][] dataset = getData(file);
             System.out.println("Dataset: " + file + " length: " + dataset.length);
-            // warmup
-            double[] stats = new SUDA2(dataset).getStatisticsKeys(0).getKeySizeDistribution();
-//            double[] stats = new SUDA2(dataset).getStatisticsScores(0, false).getDISScores(0.01d);
+            SUDA2StatisticsKeys stats = null;
             // Process
-            int REPETITIONS = 20;
+            int REPETITIONS = 10;
             long time = System.currentTimeMillis();
             for (int i=0; i<REPETITIONS; i++) {
                 long time2 = System.currentTimeMillis();
                 Timeable.reset();
-                stats = new SUDA2(dataset).getStatisticsKeys(0).getKeySizeDistribution();
-//                System.out.println(" Run: " + (System.currentTimeMillis() - time2) + " " + stats);
+                stats = new SUDA2(dataset).getStatisticsKeys(0);
+                System.out.println(" Run: " + (System.currentTimeMillis() - time2));
             }
             time = (long)((System.currentTimeMillis() - time) / (double)REPETITIONS);
+            System.out.println(stats);
+            System.out.println(" - Raw Distribution: " + Arrays.toString(stats.sizeDistribution));
             System.out.println(" - Average time: " + time);
-            // Timeable.printOverview();
+            Timeable.printOverview();
         }
     }
 }

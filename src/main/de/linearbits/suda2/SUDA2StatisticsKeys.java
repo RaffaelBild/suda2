@@ -36,7 +36,7 @@ public class SUDA2StatisticsKeys extends SUDA2Result {
     /** The total size of MSUs */
     private long           totalKeySize = 0;
     /** Distribution of sizes of MSUs */
-    private final double[] sizeDistribution;
+    public final double[] sizeDistribution;
 
     /**
      * Creates a new instance
